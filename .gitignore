@@ -1,0 +1,8 @@
+nimcache/
+nimblecache/
+htmldocs/
+
+node_modules/
+.next/
+.swc/
+.*.env
