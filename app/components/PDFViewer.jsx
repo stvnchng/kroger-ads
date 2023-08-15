@@ -78,10 +78,10 @@ const PDFViewer = ({ pdfUrl, renderFirstPage }) => {
     <div>
       <Document file={pdfUrl}>
         <div className="flex flex-wrap w-full m-0 justify-center">
-          {Array.from(new Array(4), (el, index) => (
+          {Array.from(new Array(renderFirstPage ? 4 : 3), (el, index) => (
             <Page
-              key={`page_${index + 1}`}
-              pageNumber={index + 1}
+              key={`page_${index + (renderFirstPage ? 1 : 2)}`}
+              pageNumber={index + (renderFirstPage ? 1 : 2)}
               renderTextLayer={false}
               renderAnnotationLayer={false}
               className={"text-black"}
