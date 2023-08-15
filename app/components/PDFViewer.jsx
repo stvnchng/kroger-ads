@@ -7,7 +7,7 @@ const PDFViewer = ({ pdfUrl }) => {
     <div>
       <Document file={pdfUrl}>
         <div className="flex flex-wrap w-full m-0 justify-center">
-          {Array.from(new Array(5), (el, index) => (
+          {Array.from(new Array(4), (el, index) => (
             <Page
               key={`page_${index + 1}`}
               pageNumber={index + 1}

@@ -5,7 +5,7 @@ import PDFViewer from "../../components/PDFViewer";
 import { stores } from "../stores";
 import { capitalize } from "../../utils";
 
-const StorePage = ({ params }) => {
+const StorePage = ({ params }: { params: { zone: string } }) => {
   const [pdfUrl, setPdfUrl] = useState(null);
 
   useEffect(() => {

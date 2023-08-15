@@ -12,7 +12,7 @@ export default function Page() {
   };
 
   return (
-    <ul className="pl-6 mt-6 ml-4">
+    <ul className="pl-6 mt-6 ml-3">
       {/* <li className="mb-6">
         <button
           className="px-4 py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md shadow-md"
