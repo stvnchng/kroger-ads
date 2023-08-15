@@ -41,8 +41,6 @@ const PDFViewer = ({ pdfUrl, renderFirstPage, onLoad }) => {
         if (blacklist.has(s) || s.includes(filteredPattern)) {
           continue;
         }
-        // pageTextContent.push(s);
-        // continue;
         if (s === "$" && i + 2 < pageText.items.length) {
           const dollars = pageText.items[i + 1].str;
           const cents = pageText.items[i + 2].str;
@@ -65,9 +63,10 @@ const PDFViewer = ({ pdfUrl, renderFirstPage, onLoad }) => {
   }
 
   useEffect(() => {
-    extractTextFromPDF(pdfUrl).then((textContent) => {
-      console.log(textContent);
-    });
+    // TODO: parsing text WIP
+    // extractTextFromPDF(pdfUrl).then((textContent) => {
+    //   console.log(textContent);
+    // });
   }, []);
 
   const handleLoadSuccess = () => {
@@ -76,19 +75,30 @@ const PDFViewer = ({ pdfUrl, renderFirstPage, onLoad }) => {
     console.log("invoked");
   };
 
+  const getMobileScaleFromPageNum = (pageNum) => {
+    return pageNum === 1 || pageNum === 4 ? 0.5 : 0.75;
+  };
+
   return (
     <div>
       <Document file={pdfUrl} onLoadSuccess={handleLoadSuccess}>
         <div className="flex flex-wrap w-full m-0 justify-center">
-          {Array.from(new Array(renderFirstPage ? 4 : 3), (el, index) => (
-            <Page
-              key={`page_${index + (renderFirstPage ? 1 : 2)}`}
-              pageNumber={index + (renderFirstPage ? 1 : 2)}
-              renderTextLayer={false}
-              renderAnnotationLayer={false}
-              scale={window.innerWidth < 768 ? 0.75 : 1}
-            />
-          ))}
+          {Array.from(new Array(renderFirstPage ? 4 : 3), (el, index) => {
+            const pageNum = index + (renderFirstPage ? 1 : 2);
+            return (
+              <Page
+                key={`page_${pageNum}`}
+                pageNumber={pageNum}
+                renderTextLayer={false}
+                renderAnnotationLayer={false}
+                scale={
+                  window.innerWidth < 768
+                    ? getMobileScaleFromPageNum(pageNum)
+                    : 1
+                }
+              />
+            );
+          })}
         </div>
       </Document>
     </div>
