@@ -1,10 +1,21 @@
+import { TextItem } from "pdfjs-dist/types/src/display/api";
 import { useEffect } from "react";
 import { Document, Page, pdfjs } from "react-pdf";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
-const PDFViewer = ({ pdfUrl, renderFirstPage, onLoad }) => {
-  async function extractTextFromPDF(pdfUrl) {
+interface PDFViewerProps {
+  pdfUrl: string;
+  renderFirstPage: boolean;
+  onLoad: () => void;
+}
+
+const PDFViewer: React.FC<PDFViewerProps> = ({
+  pdfUrl,
+  renderFirstPage,
+  onLoad,
+}) => {
+  async function extractTextFromPDF(pdfUrl: string) {
     const loadingTask = pdfjs.getDocument(pdfUrl);
     const pdfDocument = await loadingTask.promise;
 
@@ -37,13 +48,13 @@ const PDFViewer = ({ pdfUrl, renderFirstPage, onLoad }) => {
 
       let curr = "";
       for (let i = 0; i < pageText.items.length; i++) {
-        const s = pageText.items[i].str;
+        const s = (pageText.items[i] as TextItem).str;
         if (blacklist.has(s) || s.includes(filteredPattern)) {
           continue;
         }
         if (s === "$" && i + 2 < pageText.items.length) {
-          const dollars = pageText.items[i + 1].str;
-          const cents = pageText.items[i + 2].str;
+          const dollars = (pageText.items[i + 1] as TextItem).str;
+          const cents = (pageText.items[i + 2] as TextItem).str;
           curr += `$${dollars}.${cents}`;
           i += 2; // Skip the next two items
         } else if (s !== "") {
@@ -75,7 +86,7 @@ const PDFViewer = ({ pdfUrl, renderFirstPage, onLoad }) => {
     console.log("invoked");
   };
 
-  const getMobileScaleFromPageNum = (pageNum) => {
+  const getMobileScaleFromPageNum = (pageNum: number) => {
     return pageNum === 1 || pageNum === 4 ? 0.5 : 0.75;
   };
 

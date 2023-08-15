@@ -29,7 +29,7 @@ export default function Page() {
             className="text-blue-500 underline hover:text-blue-700 transition"
             target="_blank"
           >
-            Weekly Ad for {capitalize(zone)}
+            Weekly Ad - {capitalize(zone)}
           </Link>
         </li>
       ))}
