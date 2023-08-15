@@ -25,13 +25,41 @@ const StorePage = ({ params }: { params: { zone: string } }) => {
     fetchPdfUrl();
   }, []);
 
+  const getNextWednesday = () => {
+    const today = new Date();
+    const dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+
+    const daysUntilNextWednesday = (10 - dayOfWeek) % 7; // 10 represents Wednesday (3) + 7 days
+
+    const nextWednesday = new Date(today);
+    nextWednesday.setDate(today.getDate() + daysUntilNextWednesday);
+
+    return nextWednesday;
+  };
+
+  const formatDateToMMDD = (date: Date) => {
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${month}/${day}`;
+  };
+
+  function addDaysToDate(date: Date, days: number) {
+    const newDate = new Date(date);
+    newDate.setDate(date.getDate() + days);
+    return newDate;
+  }
+
   const path = stores[params.zone]?.path;
+  const wed = getNextWednesday();
 
   return (
     <div>
       <div className="flex flex-wrap w-full justify-center">
         <h1 className="text-2xl mb-4">
-          {capitalize(params.zone)} Weekly Ad{" "}
+          {capitalize(params.zone)}{" "}
+          {formatDateToMMDD(wed) +
+            "-" +
+            formatDateToMMDD(addDaysToDate(wed, 6))}{" "}
           <a
             href={`https://www.kroger.com/stores/grocery/${path}`}
             className="text-blue-500 underline hover:text-blue-700 transition font-semibold"
@@ -42,7 +70,14 @@ const StorePage = ({ params }: { params: { zone: string } }) => {
         </h1>
       </div>
 
-      {pdfUrl ? <PDFViewer pdfUrl={pdfUrl} /> : <p>Loading...</p>}
+      {pdfUrl ? (
+        <PDFViewer
+          pdfUrl={pdfUrl}
+          renderFirstPage={["mississippi", "dallas"].includes(params.zone)}
+        />
+      ) : (
+        <p>Loading...</p>
+      )}
     </div>
   );
 };
