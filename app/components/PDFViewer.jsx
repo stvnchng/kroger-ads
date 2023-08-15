@@ -3,7 +3,7 @@ import { Document, Page, pdfjs } from "react-pdf";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `https://unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
-const PDFViewer = ({ pdfUrl, renderFirstPage }) => {
+const PDFViewer = ({ pdfUrl, renderFirstPage, onLoad }) => {
   async function extractTextFromPDF(pdfUrl) {
     const loadingTask = pdfjs.getDocument(pdfUrl);
     const pdfDocument = await loadingTask.promise;
@@ -65,18 +65,20 @@ const PDFViewer = ({ pdfUrl, renderFirstPage }) => {
   }
 
   useEffect(() => {
-    extractTextFromPDF(pdfUrl)
-      .then((textContent) => {
-        console.log(textContent);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
+    extractTextFromPDF(pdfUrl).then((textContent) => {
+      console.log(textContent);
+    });
   }, []);
+
+  const handleLoadSuccess = () => {
+    console.log("loaded PDF");
+    onLoad();
+    console.log("invoked");
+  };
 
   return (
     <div>
-      <Document file={pdfUrl}>
+      <Document file={pdfUrl} onLoadSuccess={handleLoadSuccess}>
         <div className="flex flex-wrap w-full m-0 justify-center">
           {Array.from(new Array(renderFirstPage ? 4 : 3), (el, index) => (
             <Page
@@ -84,7 +86,7 @@ const PDFViewer = ({ pdfUrl, renderFirstPage }) => {
               pageNumber={index + (renderFirstPage ? 1 : 2)}
               renderTextLayer={false}
               renderAnnotationLayer={false}
-              className={"text-black"}
+              scale={window.innerWidth < 768 ? 0.75 : 1}
             />
           ))}
         </div>

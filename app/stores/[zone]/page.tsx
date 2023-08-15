@@ -15,6 +15,7 @@ type Ad = {
 const StorePage = ({ params }: { params: { zone: string } }) => {
   const [ads, setAds] = useState<Ad[]>([]);
   const [selectedAd, setSelectedAd] = useState<Ad>();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchPdfUrl() {
@@ -40,25 +41,31 @@ const StorePage = ({ params }: { params: { zone: string } }) => {
     return `${month}/${day}`;
   };
 
+  // TODO: figure out what state isn't being checked
+  const handleLoad = () => {
+    console.log("parent");
+    setLoading(false);
+  };
+
   const path = stores[params.zone]?.path;
 
   return (
     <div>
       <div className="flex flex-col items-center flex-wrap w-full justify-center">
         <h1 className="text-2xl my-2">
-          {capitalize(params.zone)}{" "}
-          {selectedAd
-            ? formatDate(selectedAd.valid_from) +
-              "-" +
-              formatDate(selectedAd.valid_to)
-            : ""}{" "}
-          <a
+          <Link
             href={`https://www.kroger.com/stores/grocery/${path}`}
             className="text-blue-500 underline hover:text-blue-700 transition font-semibold"
             target="_blank"
           >
-            Load Coupons
-          </a>
+            {capitalize(params.zone)}
+          </Link>
+          {selectedAd
+            ? " " +
+              formatDate(selectedAd.valid_from) +
+              "-" +
+              formatDate(selectedAd.valid_to)
+            : ""}{" "}
         </h1>
         <ul className="flex flex-wrap gap-4 pl-6 my-2 ml-3">
           {Object.keys(stores)
@@ -78,10 +85,11 @@ const StorePage = ({ params }: { params: { zone: string } }) => {
         </ul>
       </div>
 
-      {selectedAd ? (
+      {selectedAd ? ( // TODO: add loading check
         <PDFViewer
           pdfUrl={selectedAd.pdf_url}
           renderFirstPage={["flowood", "dallas"].includes(params.zone)}
+          onLoad={handleLoad}
         />
       ) : (
         <div className="flex justify-center items-center h-32">
