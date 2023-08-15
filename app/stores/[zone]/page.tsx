@@ -5,18 +5,25 @@ import PDFViewer from "../../components/PDFViewer";
 import { stores } from "../stores";
 import { capitalize } from "../../utils";
 
+type Ad = {
+  available_from: string;
+  available_to: string;
+  pdf_url: string;
+};
+
 const StorePage = ({ params }: { params: { zone: string } }) => {
-  const [pdfUrl, setPdfUrl] = useState(null);
+  const [ads, setAds] = useState<Ad[]>([]);
+  const [selectedAd, setSelectedAd] = useState<Ad>();
 
   useEffect(() => {
     async function fetchPdfUrl() {
       const link = stores[params.zone]?.url;
       try {
-        const pdfUrl = await fetch(link)
-          .then((resp) => resp.json())
-          .then((data) => data[0].pdf_url);
-        console.log(pdfUrl);
-        setPdfUrl(pdfUrl);
+        const ads: Ad[] = await fetch(link).then((resp) => resp.json());
+        console.log(ads);
+
+        setAds(ads);
+        setSelectedAd(ads[0]);
       } catch (error) {
         console.error("Error fetching PDF URL:", error);
       }
@@ -25,41 +32,37 @@ const StorePage = ({ params }: { params: { zone: string } }) => {
     fetchPdfUrl();
   }, []);
 
-  const getNextWednesday = () => {
-    const today = new Date();
-    const dayOfWeek = today.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-
-    const daysUntilNextWednesday = (10 - dayOfWeek) % 7; // 10 represents Wednesday (3) + 7 days
-
-    const nextWednesday = new Date(today);
-    nextWednesday.setDate(today.getDate() + daysUntilNextWednesday);
-
-    return nextWednesday;
-  };
-
-  const formatDateToMMDD = (date: Date) => {
+  const formatDate = (d: string | Date) => {
+    const date = new Date(d);
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
     return `${month}/${day}`;
   };
 
-  function addDaysToDate(date: Date, days: number) {
-    const newDate = new Date(date);
-    newDate.setDate(date.getDate() + days);
-    return newDate;
-  }
+  const getWednesday = (d: string) => {
+    const date = new Date(d);
+    const dayOfWeek = date.getDay(); // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
+
+    const daysUntilNextWednesday = (10 - dayOfWeek) % 7; // 10 represents Wednesday (3) + 7 days
+
+    const nextWednesday = new Date(date);
+    nextWednesday.setDate(date.getDate() + daysUntilNextWednesday);
+
+    return nextWednesday;
+  };
 
   const path = stores[params.zone]?.path;
-  const wed = getNextWednesday();
 
   return (
     <div>
       <div className="flex flex-wrap w-full justify-center">
         <h1 className="text-2xl mb-4">
           {capitalize(params.zone)}{" "}
-          {formatDateToMMDD(wed) +
-            "-" +
-            formatDateToMMDD(addDaysToDate(wed, 6))}{" "}
+          {selectedAd
+            ? formatDate(getWednesday(selectedAd.available_from)) +
+              "-" +
+              formatDate(selectedAd.available_to)
+            : ""}{" "}
           <a
             href={`https://www.kroger.com/stores/grocery/${path}`}
             className="text-blue-500 underline hover:text-blue-700 transition font-semibold"
@@ -70,9 +73,9 @@ const StorePage = ({ params }: { params: { zone: string } }) => {
         </h1>
       </div>
 
-      {pdfUrl ? (
+      {selectedAd ? (
         <PDFViewer
-          pdfUrl={pdfUrl}
+          pdfUrl={selectedAd.pdf_url}
           renderFirstPage={["mississippi", "dallas"].includes(params.zone)}
         />
       ) : (

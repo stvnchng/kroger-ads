@@ -72,7 +72,7 @@ const PDFViewer = ({ pdfUrl, renderFirstPage }) => {
       .catch((error) => {
         console.error(error);
       });
-  });
+  }, []);
 
   return (
     <div>
