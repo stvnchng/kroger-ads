@@ -4,38 +4,47 @@ import { capitalize } from "./utils";
 
 export default function Page() {
   return (
-    <ul className="pl-6 mt-6 ml-4">
-      <li className="mb-6">
-        <Link
-          href={`/ads`}
-          as={`/ads`}
-          className="text-blue-400 underline hover:text-blue-700 transition"
-        >
-          <strong>Show All Latest Ads</strong>
-        </Link>
-      </li>
-      <li className="mb-6">
-        <Link
-          href={`/ads/old`}
-          as={`/ads/old`}
-          className="text-blue-400 underline hover:text-blue-700 transition"
-        >
-          <strong>Show Old Ads (BETA)</strong>
-        </Link>
-      </li>
-      {Object.keys(stores).map((zone) => (
-        <li key={zone} className="mb-6">
+    <div className="flex justify-center items-center h-screen">
+      <ul className="p-0">
+        <li className="mb-5 text-2xl">
+          <strong>All Ads</strong>
+        </li>
+        <li className="mb-5">
           <Link
-            href={`/ads/${zone}`}
-            as={`/ads/${zone}`}
+            href={`/ads`}
+            as={`/ads`}
             className="text-blue-400 underline hover:text-blue-700 transition"
-            target="_blank"
           >
-            Weekly Ad - {stores[zone]?.info || capitalize(zone)}
+            Latest
           </Link>
         </li>
-      ))}
-    </ul>
+        <li className="mb-6">
+          <Link
+            href={`/ads/old`}
+            as={`/ads/old`}
+            className="text-blue-400 underline hover:text-blue-700 transition"
+          >
+            Old (only works Mon/Tues)
+          </Link>
+        </li>
+        <li className="mb-5 text-2xl">
+          <strong>Ads By Zone</strong>
+        </li>
+        {Object.keys(stores).map((zone) => (
+          <li key={zone} className="mb-5">
+            <Link
+              href={`/ads/${zone}`}
+              as={`/ads/${zone}`}
+              className="text-blue-400 underline hover:text-blue-700 transition"
+              target="_blank"
+            >
+              <strong>{stores[zone]?.zone}</strong>{" "}
+              {stores[zone]?.info && ` (${stores[zone]?.info})`}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
