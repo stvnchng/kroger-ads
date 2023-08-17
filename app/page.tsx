@@ -1,5 +1,3 @@
-"use client";
-
 import Link from "next/link";
 import { stores } from "./ads/stores";
 import { capitalize } from "./utils";
@@ -13,7 +11,16 @@ export default function Page() {
           as={`/ads`}
           className="text-blue-400 underline hover:text-blue-700 transition"
         >
-          <strong>Weekly Ad - Show All</strong>
+          <strong>Show All Latest Ads</strong>
+        </Link>
+      </li>
+      <li className="mb-6">
+        <Link
+          href={`/ads/old`}
+          as={`/ads/old`}
+          className="text-blue-400 underline hover:text-blue-700 transition"
+        >
+          <strong>Show Old Ads (BETA)</strong>
         </Link>
       </li>
       {Object.keys(stores).map((zone) => (

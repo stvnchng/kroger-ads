@@ -1,3 +1,5 @@
+"use client";
+
 import Link from "next/link";
 import { capitalize, formatDate } from "../utils";
 import PDFViewer from "./PDFViewer";
@@ -5,13 +7,18 @@ import { useEffect, useState } from "react";
 import { stores } from "../ads/stores";
 
 export type Ad = {
+  flyer_type: string;
   valid_from: string;
   valid_to: string;
   pdf_url: string;
 };
 
-export const StoreAdView = ({ zone }: { zone: string }) => {
-  const [ads, setAds] = useState<Ad[]>([]);
+interface StoreAdViewProps {
+  zone: string;
+  showOldAds?: boolean;
+}
+
+export const StoreAdView = ({ zone, showOldAds }: StoreAdViewProps) => {
   const [ad, setAd] = useState<Ad | null>(null);
 
   useEffect(() => {
@@ -21,8 +28,12 @@ export const StoreAdView = ({ zone }: { zone: string }) => {
         const ads: Ad[] = await fetch(link).then((resp) => resp.json());
         console.log(ads);
 
-        setAds(ads);
-        setAd(ads[0]);
+        setAd(
+          showOldAds &&
+            ads.find((ad, index) => index > 0 && ad.flyer_type === "weekly")
+            ? ads.find((ad, index) => index > 0 && ad.flyer_type === "weekly")!
+            : ads[0]
+        );
       } catch (error) {
         console.error("Error fetching PDF URL:", error);
       }

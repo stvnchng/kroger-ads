@@ -1,9 +1,7 @@
-"use client";
-
 import StoreList from "@/app/components/StoreList";
 import { StoreAdView } from "@/app/components/StoreAdView";
 
-const StorePage = ({ params }: { params: { zone: string } }) => {
+const StoreAdsPage = ({ params }: { params: { zone: string } }) => {
   return (
     <div>
       <StoreList zone={params.zone} />
@@ -12,4 +10,4 @@ const StorePage = ({ params }: { params: { zone: string } }) => {
   );
 };
 
-export default StorePage;
+export default StoreAdsPage;
