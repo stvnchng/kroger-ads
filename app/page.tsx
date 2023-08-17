@@ -1,15 +1,16 @@
 import Link from "next/link";
 import { stores } from "./ads/stores";
-import { capitalize } from "./utils";
+import { currentDayOfWeek } from "./utils";
 
 export default function Page() {
+  const showOldAds = currentDayOfWeek() === 1 || currentDayOfWeek() === 2;
   return (
     <div className="flex justify-center items-center h-screen">
       <ul className="p-0">
         <li className="mb-5 text-2xl">
-          <strong>All Ads</strong>
+          <strong>All Weekly Ads</strong>
         </li>
-        <li className="mb-5">
+        <li className="mb-4">
           <Link
             href={`/ads`}
             as={`/ads`}
@@ -18,27 +19,30 @@ export default function Page() {
             Latest
           </Link>
         </li>
-        <li className="mb-6">
-          <Link
-            href={`/ads/old`}
-            as={`/ads/old`}
-            className="text-blue-400 underline hover:text-blue-700 transition"
-          >
-            Old (only works Mon/Tues)
-          </Link>
-        </li>
+        {showOldAds && (
+          <li className="mb-6">
+            <Link
+              href={`/ads/old`}
+              as={`/ads/old`}
+              className="text-blue-400 underline hover:text-blue-700 transition"
+            >
+              Old
+            </Link>
+          </li>
+        )}
+
         <li className="mb-5 text-2xl">
-          <strong>Ads By Zone</strong>
+          <strong>All Kroger Zones</strong>
         </li>
         {Object.keys(stores).map((zone) => (
-          <li key={zone} className="mb-5">
+          <li key={zone} className="mb-4">
             <Link
               href={`/ads/${zone}`}
               as={`/ads/${zone}`}
               className="text-blue-400 underline hover:text-blue-700 transition"
               target="_blank"
             >
-              <strong>{stores[zone]?.zone}</strong>{" "}
+              {stores[zone]?.zone}{" "}
               {stores[zone]?.info && ` (${stores[zone]?.info})`}
             </Link>
           </li>

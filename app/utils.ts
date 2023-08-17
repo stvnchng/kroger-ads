@@ -6,3 +6,7 @@ export const formatDate = (d: string) => {
   const day = YYYYMMdd[2];
   return `${month}/${day}`;
 };
+
+export const currentDayOfWeek = () => {
+  return new Date().getDay();
+};
