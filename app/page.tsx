@@ -7,17 +7,24 @@ import { capitalize } from "./utils";
 export default function Page() {
   return (
     <ul className="pl-6 mt-6 ml-4">
-      <li className="mb-6">All Kroger Zones</li>
+      <li className="mb-6">
+        <Link
+          href={`/stores`}
+          as={`/stores`}
+          className="text-blue-400 underline hover:text-blue-700 transition"
+        >
+          <strong>Weekly Ad - Show All</strong>
+        </Link>
+      </li>
       {Object.keys(stores).map((zone) => (
         <li key={zone} className="mb-6">
           <Link
             href={`/stores/${zone}`}
             as={`/stores/${zone}`}
-            className="text-blue-500 underline hover:text-blue-700 transition"
+            className="text-blue-400 underline hover:text-blue-700 transition"
             target="_blank"
           >
-            Weekly Ad -{" "}
-            {stores[zone]?.info ? stores[zone]?.info : capitalize(zone)}
+            Weekly Ad - {stores[zone]?.info || capitalize(zone)}
           </Link>
         </li>
       ))}

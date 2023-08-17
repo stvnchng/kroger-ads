@@ -28,8 +28,8 @@
     "**/*.ts",
     "**/*.tsx",
     ".next/types/**/*.ts",
-    "app/page.jsx",
-    "app/stores/[zone]/page.js"
+    "app/page.tsx",
+    "app/stores/[zone]/page.tsx"
   ],
   "exclude": ["node_modules"]
 }
