@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { stores } from "./stores/stores";
+import { stores } from "./ads/stores";
 import { capitalize } from "./utils";
 
 export default function Page() {
@@ -9,8 +9,8 @@ export default function Page() {
     <ul className="pl-6 mt-6 ml-4">
       <li className="mb-6">
         <Link
-          href={`/stores`}
-          as={`/stores`}
+          href={`/ads`}
+          as={`/ads`}
           className="text-blue-400 underline hover:text-blue-700 transition"
         >
           <strong>Weekly Ad - Show All</strong>
@@ -19,8 +19,8 @@ export default function Page() {
       {Object.keys(stores).map((zone) => (
         <li key={zone} className="mb-6">
           <Link
-            href={`/stores/${zone}`}
-            as={`/stores/${zone}`}
+            href={`/ads/${zone}`}
+            as={`/ads/${zone}`}
             className="text-blue-400 underline hover:text-blue-700 transition"
             target="_blank"
           >

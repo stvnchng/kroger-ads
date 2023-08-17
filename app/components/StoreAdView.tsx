@@ -2,7 +2,7 @@ import Link from "next/link";
 import { capitalize, formatDate } from "../utils";
 import PDFViewer from "./PDFViewer";
 import { useEffect, useState } from "react";
-import { stores } from "../stores/stores";
+import { stores } from "../ads/stores";
 
 export type Ad = {
   valid_from: string;

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { stores } from "../stores/stores";
+import { stores } from "../ads/stores";
 import { capitalize } from "../utils";
 
 export default function StoreList({ zone }: { zone: string }) {

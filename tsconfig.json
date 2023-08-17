@@ -29,7 +29,7 @@
     "**/*.tsx",
     ".next/types/**/*.ts",
     "app/page.tsx",
-    "app/stores/[zone]/page.tsx"
+    "app/ads/[zone]/page.tsx"
   ],
   "exclude": ["node_modules"]
 }
