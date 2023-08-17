@@ -20,7 +20,7 @@ export const stores: Record<string, Record<string, string>> = {
   },
   cincinnati: {
     url: "https://dam.flippenterprise.net/flyerkit/publications/krogercincinnati?locale=en&access_token=4ebbe912b7d842dfcb6eee6417022d95&store_code=00390",
-    path: "oh/cincinatti",
+    path: "oh/cincinnati",
   },
   columbus: {
     url: "https://dam.flippenterprise.net/flyerkit/publications/krogercolumbus?locale=en&access_token=48040ffa24e47d306ef94a71b0b208b7&show_storefronts=true&postal_code=75080&store_code=00942",

@@ -40,7 +40,7 @@ export const StoreAdView = ({ zone, showOldAds }: StoreAdViewProps) => {
     }
 
     fetchPdfUrl(zone);
-  }, []);
+  }, [showOldAds, zone]);
 
   const whitelist = ["flowood", "dallas"];
 
