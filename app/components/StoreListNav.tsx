@@ -1,42 +1,47 @@
 "use client";
 
-import { useState } from "react";
 import { stores } from "../ads/stores";
 
 const StoreListNav = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const handleJumpClick = (id: string) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
-    setIsMenuOpen(false);
   };
 
   return (
-    <nav className="fixed top-1/2 right-2 transform -translate-y-1/2 p-4">
-      <button
-        className="block md:hidden p-2 bg-gray-200 rounded text-gray-800"
-        onClick={() => setIsMenuOpen(!isMenuOpen)}
-      >
-        Jump to Store
-      </button>
-
-      <ul
-        className={`mt-8 md:mt-0 md:block ${isMenuOpen ? "hidden" : "block"}`}
-      >
-        {Object.keys(stores).map((zone) => {
-          return (
-            <li key={zone} className="mb-2">
-              <button
-                className="text-blue-500"
-                onClick={() => handleJumpClick(zone)}
-              >
+    <>
+      <div className="fixed bottom-0 left-0 right-0 p-2 md:hidden z-40 bg-gray-200 rounded text-gray-800">
+        <div className="flex justify-center gap-2">
+          Jump to Store
+          <select
+            className="ml-1"
+            onChange={(e) => handleJumpClick(e.target.value)}
+          >
+            {Object.keys(stores).map((zone) => (
+              <option key={zone} value={zone}>
                 {zone}
-              </button>
-            </li>
-          );
-        })}
-      </ul>
-    </nav>
+              </option>
+            ))}
+          </select>
+        </div>
+      </div>
+
+      <nav className="fixed top-1/2 right-2 transform -translate-y-1/2 p-4">
+        <ul className={`md:mt-0 md:block hidden`}>
+          {Object.keys(stores).map((zone) => {
+            return (
+              <li key={zone} className="mb-2">
+                <button
+                  className="text-blue-500"
+                  onClick={() => handleJumpClick(zone)}
+                >
+                  {zone}
+                </button>
+              </li>
+            );
+          })}
+        </ul>
+      </nav>
+    </>
   );
 };
 

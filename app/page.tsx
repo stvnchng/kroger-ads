@@ -5,7 +5,7 @@ import { currentDayOfWeek } from "./utils";
 export default function Page() {
   const showOldAds = currentDayOfWeek() === 1 || currentDayOfWeek() === 2;
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="flex justify-center h-screen md:mt-20 lg:mt-10">
       <ul className="p-0">
         <li className="mb-5 text-2xl">
           <strong>All Weekly Ads</strong>
