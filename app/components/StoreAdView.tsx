@@ -25,7 +25,9 @@ export const StoreAdView = ({ zone, showOldAds }: StoreAdViewProps) => {
     async function fetchPdfUrl(zone: string) {
       const link = stores[zone]?.url;
       try {
-        const ads: Ad[] = await fetch(link).then((resp) => resp.json());
+        const ads: Ad[] = await fetch(link, { cache: "no-cache" }).then(
+          (resp) => resp.json()
+        );
         console.log(ads);
 
         setAd(
