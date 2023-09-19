@@ -1,7 +1,7 @@
 import StoreListNav from "@/app/components/StoreListNav";
-import { StoreAdView } from "@/app/components/StoreAdView";
+import StoreAdView from "@/app/components/StoreAdView";
 
-import { stores } from "./stores";
+import { stores } from "../stores";
 
 const AllLatestAdsPage = () => {
   return (

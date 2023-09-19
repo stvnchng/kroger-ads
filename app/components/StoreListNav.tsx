@@ -1,6 +1,6 @@
 "use client";
 
-import { stores } from "../ads/stores";
+import { stores } from "../stores";
 
 const StoreListNav = () => {
   const handleJumpClick = (id: string) => {

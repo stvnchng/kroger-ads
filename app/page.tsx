@@ -1,9 +1,10 @@
 import Link from "next/link";
-import { stores } from "./ads/stores";
-// import { currentDayOfWeek } from "./utils";
+import { stores } from "./stores";
+import { currentDayOfWeek } from "./utils";
 
-export default function Page() {
-  // const showOldAds = currentDayOfWeek() === 1 || currentDayOfWeek() === 2;
+const Home = () => {
+  const showOldAds = currentDayOfWeek() === 1 || currentDayOfWeek() === 2;
+
   return (
     <div className="flex justify-center h-screen md:mt-20 lg:mt-10">
       <ul className="p-0">
@@ -19,7 +20,7 @@ export default function Page() {
             Latest
           </Link>
         </li>
-        {/* {showOldAds && (
+        {showOldAds && (
           <li className="mb-6">
             <Link
               href={`/ads/old`}
@@ -29,7 +30,7 @@ export default function Page() {
               Old
             </Link>
           </li>
-        )} */}
+        )}
 
         <li className="mb-5 text-2xl">
           <strong>All Kroger Zones</strong>
@@ -50,7 +51,9 @@ export default function Page() {
       </ul>
     </div>
   );
-}
+};
+
+export default Home;
 
 // "use client";
 

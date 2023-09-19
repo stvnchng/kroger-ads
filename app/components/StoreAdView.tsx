@@ -4,9 +4,9 @@ import Link from "next/link";
 import { capitalize, formatDate } from "../utils";
 import PDFViewer from "./PDFViewer";
 import { useEffect, useState } from "react";
-import { stores } from "../ads/stores";
+import { stores } from "../stores";
 
-export type Ad = {
+type Ad = {
   flyer_type: string;
   valid_from: string;
   valid_to: string;
@@ -18,7 +18,7 @@ interface StoreAdViewProps {
   showOldAds?: boolean;
 }
 
-export const StoreAdView = ({ zone, showOldAds }: StoreAdViewProps) => {
+const StoreAdView = ({ zone, showOldAds }: StoreAdViewProps) => {
   const [ad, setAd] = useState<Ad | null>(null);
 
   useEffect(() => {
@@ -28,7 +28,7 @@ export const StoreAdView = ({ zone, showOldAds }: StoreAdViewProps) => {
         const ads: Ad[] = await fetch(link, { cache: "no-cache" }).then(
           (resp) => resp.json()
         );
-        console.log(ads);
+        console.log("response for", zone, ads);
 
         setAd(
           showOldAds &&
@@ -45,12 +45,6 @@ export const StoreAdView = ({ zone, showOldAds }: StoreAdViewProps) => {
   }, [showOldAds, zone]);
 
   const whitelist = ["flowood", "dallas"];
-
-  // TODO: figure out what state isn't being checked
-  const handleLoad = () => {
-    console.log("parent");
-    // setLoading(false);
-  };
 
   return (
     <div
@@ -73,11 +67,10 @@ export const StoreAdView = ({ zone, showOldAds }: StoreAdViewProps) => {
             " "
           : ""}
       </h1>
-      {ad ? ( // TODO: add loading check
+      {ad ? (
         <PDFViewer
           pdfUrl={ad.pdf_url}
           renderFirstPage={whitelist.includes(zone)}
-          onLoad={handleLoad}
         />
       ) : (
         <div className="flex justify-center items-center h-32">
@@ -87,3 +80,5 @@ export const StoreAdView = ({ zone, showOldAds }: StoreAdViewProps) => {
     </div>
   );
 };
+
+export default StoreAdView;
